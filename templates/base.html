@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Delivery Optimizer{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Menu -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Delivery Optimizer</h2>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="menu-item {% if request.path == url_for('dashboard') %}active{% endif %}">
+                    <a href="{{ url_for('dashboard') }}">
+                        <span class="menu-icon">📊</span>
+                        Tableau de bord
+                    </a>
+                </li>
+                <li class="menu-item {% if request.path == url_for('gestion_stock') %}active{% endif %}">
+                    <a href="{{ url_for('gestion_stock') }}">
+                        <span class="menu-icon">📦</span>
+                        Gestion de stock
+                    </a>
+                </li>
+                <li class="menu-item {% if request.path == url_for('gestion_camions') %}active{% endif %}">
+                    <a href="{{ url_for('gestion_camions') }}">
+                        <span class="menu-icon">🚚</span>
+                        Gestion de camions
+                    </a>
+                </li>
+                <li class="menu-item {% if request.path == url_for('chargement_camions') %}active{% endif %}">
+                    <a href="{{ url_for('chargement_camions') }}">
+                        <span class="menu-icon">⚡</span>
+                        Chargement de camions
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span class="user-name">{{ username }}</span>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">Déconnexion</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

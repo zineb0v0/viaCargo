@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Delivery Optimizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="app-logo">
+                <h1>🚚 Delivery Optimizer</h1>
+            </div>
+            
+            <h2>Connexion Administrateur</h2>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" class="login-form">
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur:</label>
+                    <input type="text" id="username" name="username" required class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Mot de passe:</label>
+                    <input type="password" id="password" name="password" required class="form-input">
+                </div>
+                
+                <button type="submit" class="btn btn-login">Se connecter</button>
+            </form>
+            
+            <div class="login-info">
+                <p><strong>Compte de test:</strong></p>
+                <p>Nom d'utilisateur: <strong>admin</strong></p>
+                <p>Mot de passe: <strong>admin123</strong></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

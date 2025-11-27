@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de Bord - Delivery Optimizer{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+    <!-- Header -->
+    <header class="page-header">
+        <h1>Tableau de bord</h1>
+        <p>Vue d'ensemble des colis en attente de livraison</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+        <!-- Left Section - KPIs and Table -->
+        <div class="left-section">
+            <!-- KPIs Section -->
+            <section class="kpis-section">
+                <h2>Colis en attente</h2>
+                <div class="kpis-grid">
+                    <div class="kpi-item">
+                        <div class="kpi-label">Colis :</div>
+                        <div class="kpi-value">{{ kpis.total_pending }}</div>
+                    </div>
+                    <div class="kpi-item">
+                        <div class="kpi-label">Poids total :</div>
+                        <div class="kpi-value">{{ kpis.total_weight }} kg</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pending Shipments Table -->
+            <section class="table-section">
+                <h2>Colis non livrés</h2>
+                <div class="table-container">
+                    <table class="shipments-table">
+                        <thead>
+                            <tr>
+                                <th>N° Colis</th>
+                                <th>Client</th>
+                                <th>Adresse de livraison</th>
+                                <th>Poids</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for shipment in shipments %}
+                            <tr>
+                                <td class="col-id">{{ shipment.id }}</td>
+                                <td class="col-client">{{ shipment.client }}</td>
+                                <td class="col-address">
+                                    <span class="address-icon">©</span>
+                                    {{ shipment.address }}
+                                </td>
+                                <td class="col-weight">{{ shipment.weight }} kg</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Section - Search and Actions -->
+        <div class="right-section">
+            <!-- Search Section -->
+            <div class="search-section">
+                <h3>Rechercher</h3>
+                <div class="search-container">
+                    <input type="text" placeholder="Taper ici pour rechercher" class="search-input">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="actions-section">
+                <h3>Actions rapides</h3>
+                <div class="actions-list">
+                    <button class="action-btn" onclick="alert('Fonctionnalité à venir')">
+                        <span class="action-icon">➕</span>
+                        Ajouter un colis
+                    </button>
+                    <button class="action-btn" onclick="alert('Fonctionnalité à venir')">
+                        <span class="action-icon">🚚</span>
+                        Gérer les camions
+                    </button>
+                    <button class="action-btn" onclick="alert('Fonctionnalité à venir')">
+                        <span class="action-icon">⚡</span>
+                        Optimiser chargement
+                    </button>
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="info-section">
+                <div class="info-item">
+                    <span class="info-label">Version :</span>
+                    <span class="info-value">1.0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Connecté en tant que :</span>
+                    <span class="info-value">{{ username }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
