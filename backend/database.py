@@ -11,3 +11,19 @@ def get_connection():
         port=Config.DB_PORT,
         cursor_factory=RealDictCursor
     )
+
+def query(sql, params=None, fetch=False):
+    conn = get_connection()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+
+    cur.execute(sql, params)
+
+    data = None
+    if fetch:
+        data = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return data
