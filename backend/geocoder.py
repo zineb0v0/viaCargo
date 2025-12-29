@@ -2,9 +2,8 @@ import time
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 from app import app
-from models import db, Client, Depot
+from models import db, Colis, Depot, Client
 
-# Initialisation du géocodeur
 geolocator = Nominatim(user_agent="viacargo_app")
 
 def get_coordinates(address):
@@ -18,7 +17,6 @@ def get_coordinates(address):
 
 def run_geocoding():
     with app.app_context():
-        # 1. Géocodage des Dépôts
         depots = Depot.query.filter(Depot.latitude.is_(None)).all()
         for d in depots:
             lat, lon = get_coordinates(d.adresse)
@@ -26,18 +24,24 @@ def run_geocoding():
                 d.latitude, d.longitude = lat, lon
                 print(f"Dépôt {d.nom} localisé : {lat}, {lon}")
         
-        # 2. Géocodage des Clients
         clients = Client.query.filter(Client.latitude.is_(None)).all()
-        for c in clients:
-            lat, lon = get_coordinates(c.adresse)
+        for cl in clients:
+            lat, lon = get_coordinates(cl.adresse)
+            if lat:
+                cl.latitude, cl.longitude = lat, lon
+                print(f"Client {cl.nom} localisé : {lat}, {lon}")
+            time.sleep(1)
+
+        colis_list = Colis.query.filter(Colis.latitude.is_(None)).all()
+        for c in colis_list:
+            lat, lon = get_coordinates(c.destination)
             if lat:
                 c.latitude, c.longitude = lat, lon
-                print(f"Client {c.nom} localisé : {lat}, {lon}")
-            # Respecter la limite de Nominatim (1 requête par seconde)
+                print(f"Colis #{c.id_colis} localisé : {lat}, {lon}")
             time.sleep(1) 
             
         db.session.commit()
-        print("Mise à jour de la base de données réussie.")
+        print("Mise à jour globale (Dépôts, Clients, Colis) réussie.")
 
 if __name__ == "__main__":
     run_geocoding()

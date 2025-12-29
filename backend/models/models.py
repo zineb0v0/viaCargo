@@ -39,6 +39,8 @@ class Colis(db.Model):
     statut = db.Column(db.String(20), nullable=False, default="en_stock")
     date_livraison = db.Column(db.DateTime, nullable=False)
     assignments = db.relationship("Assignment", backref="colis", cascade="all, delete")
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
 
     def to_dict(self):
         return {
@@ -48,6 +50,8 @@ class Colis(db.Model):
             "statut": self.statut,
             "date_livraison": self.date_livraison.isoformat() if self.date_livraison else None,
             "nom_client": self.nom_client,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
         }
 
 class Assignment(db.Model):
@@ -139,3 +143,19 @@ class Tournee(db.Model):
             "distance_totale": self.distance_totale,
             "temps_estime": self.temps_estime,
         }
+class DistanceMatrix(db.Model):
+    __tablename__ = "distance_matrix"
+    id = db.Column(db.Integer, primary_key=True)
+    id_camion = db.Column(db.Integer, db.ForeignKey("camion.id_camion"), nullable=False)
+    id_from = db.Column(db.Integer, db.ForeignKey("colis.id_colis"), nullable=False)
+    id_to = db.Column(db.Integer, db.ForeignKey("colis.id_colis"), nullable=False)
+    distance = db.Column(db.Float, nullable=False)
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "id_camion": self.id_camion,
+            "id_from": self.id_from,
+            "id_to": self.id_to,
+            "distance": self.distance
+        }
+

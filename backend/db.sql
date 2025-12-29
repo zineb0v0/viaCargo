@@ -34,6 +34,9 @@ CREATE TABLE colis (
     poids           FLOAT NOT NULL,
     statut          VARCHAR(20) NOT NULL DEFAULT 'en_stock',
     date_livraison  TIMESTAMP NULL,
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION,
+
     
     CHECK (statut IN ('en_stock', 'en_livraison', 'livre')),
 
