@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import db
 from models.models import Colis
+from routes.auth_route import login_required
 from datetime import datetime
 
 colis_bp = Blueprint("colis", __name__)
@@ -9,6 +10,7 @@ colis_bp = Blueprint("colis", __name__)
 # GET TOUS LES COLIS
 # ------------------------------
 @colis_bp.route("/", methods=["GET"])
+@login_required
 def get_colis():
     colis = Colis.query.all()
     return jsonify([c.to_dict() for c in colis]), 200
@@ -17,6 +19,7 @@ def get_colis():
 # GET COLIS PAR ID
 # ------------------------------
 @colis_bp.route("/<int:id_colis>", methods=["GET"])
+@login_required
 def get_colis_by_id(id_colis):
     colis = Colis.query.get(id_colis)
     if not colis:
@@ -27,6 +30,7 @@ def get_colis_by_id(id_colis):
 # AJOUTER UN COLIS
 # ------------------------------
 @colis_bp.route("/", methods=["POST"])
+@login_required
 def add_colis():
     try:
         data = request.get_json()
@@ -65,6 +69,7 @@ def add_colis():
 # UPDATE COLIS
 # ------------------------------
 @colis_bp.route("/<int:id_colis>", methods=["PUT"])
+@login_required
 def update_colis(id_colis):
     try:
         colis = Colis.query.get(id_colis)
@@ -97,6 +102,7 @@ def update_colis(id_colis):
 # DELETE COLIS
 # ------------------------------
 @colis_bp.route("/<int:id_colis>", methods=["DELETE"])
+@login_required
 def delete_colis(id_colis):
     try:
         colis = Colis.query.get(id_colis)

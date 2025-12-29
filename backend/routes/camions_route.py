@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import db
 from models.models import Camion
+from routes.auth_route import login_required
 
 camions_bp = Blueprint("camions", __name__)
 
@@ -8,6 +9,7 @@ camions_bp = Blueprint("camions", __name__)
 # GET TOUS LES CAMIONS
 # ------------------------------
 @camions_bp.route("/", methods=["GET"])
+@login_required
 def get_camions():
     camions = Camion.query.all()
     return jsonify([c.to_dict() for c in camions]), 200
@@ -16,6 +18,7 @@ def get_camions():
 # GET CAMION PAR ID
 # ------------------------------
 @camions_bp.route("/<int:id_camion>", methods=["GET"])
+@login_required
 def get_camion_by_id(id_camion):
     camion = Camion.query.get(id_camion)
     if not camion:
@@ -26,6 +29,7 @@ def get_camion_by_id(id_camion):
 # AJOUTER UN CAMION
 # ------------------------------
 @camions_bp.route("/", methods=["POST"])
+@login_required
 def add_camion():
     try:
         data = request.get_json()
@@ -64,6 +68,7 @@ def add_camion():
 # UPDATE CAMION
 # ------------------------------
 @camions_bp.route("/<int:id_camion>", methods=["PUT"])
+@login_required
 def update_camion(id_camion):
     try:
         camion = Camion.query.get(id_camion)
@@ -103,6 +108,7 @@ def update_camion(id_camion):
 # DELETE CAMION
 # ------------------------------
 @camions_bp.route("/<int:id_camion>", methods=["DELETE"])
+@login_required
 def delete_camion(id_camion):
     try:
         camion = Camion.query.get(id_camion)
@@ -121,6 +127,7 @@ def delete_camion(id_camion):
 # GET CAMIONS PAR STATUT
 # ------------------------------
 @camions_bp.route("/status/<string:status>", methods=["GET"])
+@login_required
 def get_camions_by_status(status):
     """
     Récupérer tous les camions avec un statut spécifique
@@ -137,6 +144,7 @@ def get_camions_by_status(status):
 # GET STATISTIQUES DES CAMIONS
 # ------------------------------
 @camions_bp.route("/stats", methods=["GET"])
+@login_required
 def get_camions_stats():
     """
     Récupérer des statistiques sur la flotte de camions

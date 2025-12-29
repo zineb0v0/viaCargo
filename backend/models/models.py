@@ -8,6 +8,13 @@ class Admin(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
+    def check_password(self, password):
+        return self.password == password
+    
+    @staticmethod
+    def find_by_email(email):
+        return Admin.query.filter_by(email=email).first()
+
     def to_dict(self):
         return {
             "id_admin": self.id_admin,
