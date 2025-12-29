@@ -1,0 +1,17 @@
+/* src/index.css */
+:root {
+  min-height: 100vh;
+}
+
+body {
+  /* Supprime les marges par défaut et applique le fond clair pour toute la fenêtre */
+  margin: 0; 
+  background-color: #f0f2f5; 
+  font-family: sans-serif;
+  color: #333;
+}
+
+#root {
+    width: 100%;
+    min-height: 100vh;
+}

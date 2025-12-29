@@ -1,0 +1,109 @@
+/* src/components/Sidebar.css */
+
+/* --- 1. Conteneur de la barre latérale --- */
+.sidebar {
+    width: 250px; 
+    background-color: white; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    padding-bottom: 20px;
+}
+
+/* --- 2. En-tête (Logo et Texte) --- */
+.sidebar-header {
+    background-color: #9e84b8; /* Fond violet pour le header */
+    padding: 20px 20px;
+    display: flex;
+    align-items: center;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.logo-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    background-color: rgba(255, 255, 255, 0.2); 
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+.app-info {
+    text-align: left;
+    line-height: 1.2;
+}
+
+.app-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.app-slogan-sidebar {
+    font-size: 0.8em;
+    opacity: 0.8;
+    margin: 0;
+}
+
+/* --- 3. Style des liens de navigation --- */
+
+.sidebar-nav-main {
+    flex-grow: 1; 
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    margin: 5px 15px;
+    text-decoration: none;
+    color: #444;
+    font-size: 1em;
+    border-radius: 8px;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 500;
+}
+
+.link-icon {
+    font-size: 1.2em;
+    margin-right: 15px;
+    color: #888;
+}
+
+/* Style de survol */
+.sidebar-link:hover {
+    background-color: #f5f5f5;
+    color: #9e84b8;
+}
+
+/* Style du lien ACTIF */
+.sidebar-link.active {
+    background-color: #9e84b8; 
+    color: white; 
+    box-shadow: 0 2px 8px rgba(158, 132, 184, 0.4);
+}
+
+.sidebar-link.active .link-icon {
+    color: white; 
+}
+
+/* --- 4. Section Déconnexion (Bas de page) --- */
+.sidebar-nav-bottom {
+    padding-top: 10px;
+    border-top: 1px solid #eee; 
+    margin: 0 15px;
+}
+
+/* Style spécifique pour le lien de déconnexion */
+.sidebar-nav-bottom .sidebar-link {
+    color: #a44; 
+}
+
+.sidebar-nav-bottom .sidebar-link:hover {
+    background-color: #ffeaea;
+}

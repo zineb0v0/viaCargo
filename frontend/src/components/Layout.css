@@ -1,0 +1,16 @@
+/* src/components/Layout.css */
+
+.app-layout {
+    display: flex; /* Utilise Flexbox pour aligner Sidebar et Main Content */
+    min-height: 100vh; 
+    width: 100%;
+    /* Le fond principal de la zone de travail est le même que le body */
+    background-color: #f0f2f5; 
+}
+
+.main-content {
+    /* Le contenu principal prend tout l'espace restant */
+    flex-grow: 1; 
+    padding: 30px; 
+    overflow-y: auto; /* Permet le défilement du contenu */
+}

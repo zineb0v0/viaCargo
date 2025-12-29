@@ -32,7 +32,6 @@ class Camion(db.Model):
 
 class Colis(db.Model):
     __tablename__ = "colis"
-    
     nom_client = db.Column(db.String(100), nullable=False)
     id_colis = db.Column(db.Integer, primary_key=True)
     destination = db.Column(db.String(255), nullable=False)

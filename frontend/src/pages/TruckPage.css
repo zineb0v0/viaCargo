@@ -1,0 +1,113 @@
+/* src/pages/TruckPage.css */
+
+/* --- 1. En-tête et Bouton --- */
+.page-header-truck {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-header-truck h2 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.page-header-truck p {
+    color: #777;
+    margin-top: 0;
+}
+
+.btn-add-truck {
+    background-color: #9e84b8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(158, 132, 184, 0.3);
+    transition: background-color 0.2s;
+}
+
+.btn-add-truck:hover {
+    background-color: #8870a4;
+}
+
+/* --- 2. Barre de Recherche (Utilise les classes de StockPage) --- */
+/* Pour que la barre de recherche s'affiche correctement, assurez-vous que les classes: 
+.search-bar-container, .search-icon, .search-input sont dans StockPage.css (ou App.css) */
+
+
+/* --- 3. Tableau --- */
+.data-table-container-truck {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden; 
+    overflow-x: auto; 
+}
+
+.data-table-truck {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 700px; 
+}
+
+.data-table-truck thead {
+    background-color: #f0ebf5; 
+    color: #444;
+}
+
+.data-table-truck th {
+    padding: 15px 20px;
+    font-weight: 600;
+    font-size: 0.95em;
+    white-space: nowrap; 
+    color: #9e84b8; 
+}
+
+.data-table-truck td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee; 
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Style pour la capacité */
+.capacity-badge {
+    background-color: #eee; 
+    color: #555;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Styles pour les statuts */
+.status-available { /* Disponible */
+    color: #4CAF50; 
+    font-weight: 600;
+}
+.status-broken { /* En panne / Hors service */
+    color: #F44336; 
+    font-weight: 600;
+}
+.status-loading { /* En livraison */
+     color: #2196F3;
+     font-weight: 600;
+}
+
+
+/* Styles pour les icônes d'action (Utilise les classes de StockPage.css) */
+.col-actions {
+    display: flex;
+    gap: 10px;
+}
+/* Ajoutez les styles .action-btn, .edit-btn, .delete-btn de StockPage.css si non globaux */

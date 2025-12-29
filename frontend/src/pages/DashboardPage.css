@@ -1,0 +1,99 @@
+/* src/pages/DashboardPage.css */
+
+/* --- Cartes de statistiques --- */
+.stats-container {
+    display: flex;
+    gap: 30px; 
+    margin-bottom: 40px;
+}
+
+.stats-card {
+    background-color: #f0ebf5; 
+    color: #444;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    width: 250px; 
+}
+
+.card-title {
+    font-size: 0.9em;
+    font-weight: 500;
+    margin: 0 0 5px 0;
+    color: #666;
+}
+
+.card-value {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #9e84b8; 
+    margin: 0;
+}
+
+.card-icon {
+    color: #9e84b8; 
+    opacity: 0.5;
+}
+
+/* --- 3. Styles du tableau --- */
+.data-table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden; 
+    width: 100%;
+    overflow-x: auto; 
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 800px; 
+}
+
+.data-table thead {
+    background-color: #9e84b8; 
+    color: white;
+}
+
+.data-table th {
+    padding: 15px 20px;
+    font-weight: 600;
+    font-size: 0.95em;
+    white-space: nowrap; 
+}
+
+.data-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee; 
+    font-size: 0.9em;
+    color: #555;
+}
+
+.weight-badge {
+    background-color: #f0ebf5; 
+    color: #9e84b8;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Styles Généraux --- */
+.page-header h2 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    color: #333;
+}
+.page-header p {
+    color: #777;
+    margin-bottom: 30px;
+}

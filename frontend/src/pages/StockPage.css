@@ -1,0 +1,163 @@
+/* src/pages/StockPage.css */
+
+/* --- 1. En-tête et Bouton --- */
+.page-header-stock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-header-stock h2 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.page-header-stock p {
+    color: #777;
+    margin-top: 0;
+}
+
+.btn-add-package {
+    background-color: #9e84b8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(158, 132, 184, 0.3);
+    transition: background-color 0.2s;
+}
+
+.btn-add-package:hover {
+    background-color: #8870a4;
+}
+
+/* --- 2. Barre de Recherche --- */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 10px 15px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.search-icon {
+    color: #9e84b8;
+    margin-right: 10px;
+}
+
+.search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 5px 0;
+}
+
+/* --- 3. Tableau --- */
+.data-table-container-stock {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden; 
+    overflow-x: auto; 
+}
+
+.data-table-stock {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 900px; /* Assure que toutes les colonnes tiennent */
+}
+
+.data-table-stock thead {
+    background-color: #f0ebf5; /* Fond de l'en-tête */
+    color: #444;
+}
+
+.data-table-stock th {
+    padding: 15px 20px;
+    font-weight: 600;
+    font-size: 0.95em;
+    white-space: nowrap; 
+    color: #9e84b8; /* Texte violet pour les titres */
+}
+
+.data-table-stock td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee; 
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* --- Badges et Actions --- */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.status-pending {
+    background-color: #fff3e0; /* Jaune/Orange très clair */
+    color: #ff9800; /* Texte orange */
+}
+
+.weight-badge-stock {
+    background-color: #eee; 
+    color: #555;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.col-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    font-size: 1.1em;
+}
+
+.edit-btn {
+    color: #4CAF50; /* Vert pour modifier */
+}
+
+.edit-btn:hover {
+    background-color: #e8f5e9;
+}
+
+.delete-btn {
+    color: #F44336; /* Rouge pour supprimer */
+}
+
+.delete-btn:hover {
+    background-color: #ffebee;
+}
+
+.no-data-cell {
+    text-align: center !important;
+    font-style: italic;
+    color: #999;
+}
+
+.data-table-stock tbody tr:hover {
+    background-color: #fafafa;
+}

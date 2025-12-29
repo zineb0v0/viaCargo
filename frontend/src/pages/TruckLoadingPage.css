@@ -1,0 +1,235 @@
+/* src/pages/TruckLoadingPage.css */
+
+.loading-page {
+    padding: 20px;
+}
+
+.page-header-loading {
+    margin-bottom: 30px;
+}
+
+.page-header-loading h2 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.page-header-loading p {
+    color: #777;
+}
+
+/* --- Cartes de Statistiques Générales (Haut de page) --- */
+.stat-cards-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-radius: 12px;
+    color: white; /* Texte blanc sur fond violet/lilas (couleur définie inline dans le JSX) */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+.stat-title {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.stat-icon-container {
+    opacity: 0.5;
+}
+
+/* --- Bouton Lancer l'Algorithme (POST) --- */
+.launch-button-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.btn-launch-algorithm {
+    background-color: #9e84b8; 
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 0 6px 15px rgba(158, 132, 184, 0.4);
+    transition: background-color 0.3s;
+}
+
+.btn-launch-algorithm:hover:not(:disabled) {
+    background-color: #8870a4;
+}
+
+.btn-launch-algorithm small {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+.btn-launch-algorithm:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* --- Résultats de l'Optimisation --- */
+.optimization-results h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Cartes de Résultat (Conteneur des deux cartes de résumé) */
+.result-stat-cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.result-stat-cards .stat-card {
+    box-shadow: none; 
+}
+
+/* --- Détails de l'Affectation des Camions --- */
+.truck-assignments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.truck-assignment-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.truck-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.truck-header h4 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.truck-header p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #777;
+}
+
+.capacity-info {
+    margin-left: auto;
+    text-align: right;
+    font-size: 0.85em;
+    color: #555;
+}
+
+.weight-usage {
+    font-weight: 600;
+    display: block;
+    margin-top: 2px;
+    color: #9e84b8;
+}
+
+/* Barre de Progression (Capacité Utilisée) */
+.progress-bar-container {
+    height: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #9e84b8;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Liste des Colis Assignés */
+.parcel-list-title {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.assigned-parcels {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.parcel-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dotted #f0f0f0;
+}
+
+.parcel-icon {
+    color: #9e84b8;
+    margin-right: 15px;
+}
+
+.parcel-details {
+    flex-grow: 1;
+}
+
+.parcel-details strong {
+    display: block;
+    font-size: 0.9em;
+}
+
+.parcel-details small {
+    display: block;
+    color: #999;
+    font-size: 0.8em;
+}
+
+.parcel-weight {
+    background-color: #f0ebf5; 
+    color: #9e84b8;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.8em;
+}
+
+/* Media Queries pour la réactivité */
+@media (max-width: 768px) {
+    .stat-cards-container, .result-stat-cards {
+        flex-direction: column;
+    }
+}
