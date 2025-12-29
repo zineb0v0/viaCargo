@@ -11,20 +11,35 @@ from routes.camions_route import camions_bp
 from routes.auth_route import auth_bp
 from routes.tournee_route import tournee_bp
 
-app = Flask(__name__, static_folder='../frontend/build')
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
-# Configuration
+app = Flask(__name__, static_folder='../frontend/build')
+
+# Configuration de base
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{Config.DB_USER}:{Config.DB_PASSWORD}@{Config.DB_HOST}:{Config.DB_PORT}/{Config.DB_NAME}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = Config.SECRET_KEY
+
+# Configuration des sessions
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',  # 'Lax' pour développement local
+    SESSION_COOKIE_SECURE=False      # False pour HTTP local, True pour HTTPS en production
+)
+
+# CORS - IMPORTANT : Configuration complète
+CORS(app, 
+     resources={r"/api/*": {"origins": ["http://localhost:5173", "http://localhost:3000"]}},
+     supports_credentials=True,
+     allow_headers=["Content-Type", "Authorization"],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+)
 
 # Initialisation de la base de données
 db.init_app(app)
 
 # Admins définis dans le code
 ADMINS = {
-    'admin@viacargo.com': 'admin123',
+    'admin1@viacargo.com': 'adminpass123',
     'manager@viacargo.com': 'manager123',
     'supervisor@viacargo.com': 'super123'
 }
@@ -40,6 +55,8 @@ with app.app_context():
             admin = Admin(email=email, password=password)
             db.session.add(admin)
         db.session.commit()
+        print("✅ Admins créés avec succès!")
+        print("Emails disponibles:", list(ADMINS.keys()))
     
     # Créer un dépôt par défaut si la table est vide
     if Depot.query.count() == 0:
@@ -72,10 +89,22 @@ app.register_blueprint(camions_bp, url_prefix='/api/camions')
 app.register_blueprint(solution_bp, url_prefix='/api')
 app.register_blueprint(tournee_bp, url_prefix='/api/tournee')
 
+
 # Route de test API
 @app.route('/api')
 def home():
     return jsonify({"message": "API de gestion de stock fonctionnelle"}), 200
+
+# Route de test pour vérifier la session
+@app.route('/api/test-session')
+def test_session():
+    if 'admin_id' in session:
+        return jsonify({
+            "session_active": True,
+            "admin_id": session.get('admin_id'),
+            "admin_email": session.get('admin_email')
+        })
+    return jsonify({"session_active": False})
 
 # Routes pour le frontend (à la fin)
 @app.route('/', defaults={'path': ''})

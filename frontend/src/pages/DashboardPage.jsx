@@ -4,7 +4,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import { GiCube } from 'react-icons/gi';
 import './DashboardPage.css';
 
-const API_URL = 'http://localhost:5000/stock'; 
+const API_URL = 'http://localhost:5000/api/colis/';
 
 const renderStatCard = (title, value, isKg = false) => (
     <div className="stats-card">
@@ -26,17 +26,31 @@ const DashboardPage = () => {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await axios.get(API_URL);
-            const data = response.data;
+            const response = await axios.get(API_URL, {
+                withCredentials: true
+            });
+            
+            const colisData = response.data || [];
+            
+            const totalPackages = colisData.length;
+            const totalWeight = colisData.reduce((sum, colis) => sum + (colis.poids || 0), 0);
+            
+            const packages = colisData.map(colis => ({
+                id: colis.id_colis,
+                client: colis.nom_client || 'Client inconnu',
+                address: colis.destination,
+                deadline: colis.date_livraison,
+                weight: colis.poids
+            }));
 
-            setPackageData(data.packages || []);
+            setPackageData(packages);
             setStats({
-                totalPackages: data.totalPackages || 0,
-                totalWeight: data.totalWeight || 0
+                totalPackages: totalPackages,
+                totalWeight: totalWeight.toFixed(2)
             });
         } catch (err) {
             console.error("Erreur Dashboard:", err);
-            setError("Impossible de charger le tableau de bord. Backend éteint ou erreur CORS.");
+            setError(`Impossible de charger les données: ${err.message}`);
         } finally {
             setIsLoading(false);
         }
@@ -60,16 +74,21 @@ const DashboardPage = () => {
     };
 
     if (isLoading) {
-        return <div className="loading-state" style={{padding: '30px', fontSize: '1.2em'}}>Chargement des données du tableau de bord...</div>;
+        return <div className="loading-state" style={{padding: '30px', fontSize: '1.2em'}}>Chargement...</div>;
     }
 
     if (error) {
-        return <div className="error-state" style={{padding: '30px', color: 'red'}}>Erreur : {error}</div>;
+        return (
+            <div className="error-state" style={{padding: '30px', color: 'red'}}>
+                <h3>Erreur</h3>
+                <p>{error}</p>
+                <button onClick={fetchDashboardData}>Réessayer</button>
+            </div>
+        );
     }
 
     return (
         <div className="dashboard-page">
-            
             <div className="page-header">
                 <h2>Tableau de bord</h2>
             </div>
@@ -80,7 +99,6 @@ const DashboardPage = () => {
             </div>
             
             <div className="table-section">
-                
                 <div className="data-table-container">
                     <table className="data-table">
                         <thead>
@@ -110,8 +128,8 @@ const DashboardPage = () => {
                             ))}
                             {packageData.length === 0 && (
                                 <tr>
-                                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px', fontStyle: 'italic' }}>
-                                        Aucun colis trouvé ou en attente.
+                                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }}>
+                                        Aucun colis trouvé.
                                     </td>
                                 </tr>
                             )}

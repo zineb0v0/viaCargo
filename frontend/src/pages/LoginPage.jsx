@@ -4,11 +4,10 @@ import { FaUser, FaLock } from 'react-icons/fa';
 import { GiCardboardBox } from 'react-icons/gi';
 import './LoginPage.css';
 
-// URL de votre backend
-const API_URL = 'http://localhost:5000/login';
+const API_URL = 'http://localhost:5000/api/auth/login';
 
 const LoginPage = ({ onLoginSuccess }) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -18,28 +17,19 @@ const LoginPage = ({ onLoginSuccess }) => {
         setError('');
         setIsLoading(true);
 
-        // --- SIMULATION POUR LE TEST (admin/admin) ---
-        if (username === 'admin' && password === 'admin') {
-            setIsLoading(false);
-            onLoginSuccess();
-            return;
-        }
-        // -----------------------------------------
-
         try {
-            // Tentative de connexion via API Flask
-            const response = await axios.post(API_URL, { username, password });
+            const response = await axios.post(
+                API_URL, 
+                { email, password },
+                { withCredentials: true }
+            );
             
-            if (response.data.token) {
-                // Si l'API retourne un token, la connexion est réussie
+            if (response.data.message) {
                 onLoginSuccess();
-            } else {
-                setError('Identifiants incorrects.');
             }
         } catch (err) {
             console.error('Erreur de connexion:', err);
-            // Afficher une erreur si l'API est injoignable ou renvoie 401/400
-            setError('Échec de la connexion. Vérifiez le backend ou utilisez admin/admin.');
+            setError(err.response?.data?.error || 'Échec de la connexion');
         } finally {
             setIsLoading(false);
         }
@@ -57,15 +47,15 @@ const LoginPage = ({ onLoginSuccess }) => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group-login">
-                        <label htmlFor="username">Nom d'utilisateur</label>
+                        <label htmlFor="email">Email</label>
                         <div className="input-with-icon">
                             <FaUser className="input-icon" />
                             <input 
-                                type="text" 
-                                id="username" 
-                                placeholder="Entrez votre nom d'utilisateur"
-                                value={username} 
-                                onChange={(e) => setUsername(e.target.value)} 
+                                type="email" 
+                                id="email" 
+                                placeholder="admin1@viacargo.com"
+                                value={email} 
+                                onChange={(e) => setEmail(e.target.value)} 
                                 required 
                             />
                         </div>
@@ -78,7 +68,7 @@ const LoginPage = ({ onLoginSuccess }) => {
                             <input 
                                 type="password" 
                                 id="password" 
-                                placeholder="Entrez votre mot de passe"
+                                placeholder="adminpass123"
                                 value={password} 
                                 onChange={(e) => setPassword(e.target.value)} 
                                 required 
