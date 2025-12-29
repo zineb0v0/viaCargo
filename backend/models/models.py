@@ -64,3 +64,78 @@ class Assignment(db.Model):
             "colis": self.colis.to_dict(),
             "time": self.time.isoformat(),
         }
+
+class Client(db.Model):
+    __tablename__ = "client"
+
+    id_client = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(100), nullable=False)
+    prenom = db.Column(db.String(100), nullable=False)
+    adresse = db.Column(db.String(255), nullable=False)
+
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+
+    def to_dict(self):
+        return {
+            "id_client": self.id_client,
+            "nom": self.nom,
+            "prenom": self.prenom,
+            "adresse": self.adresse,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+        }
+
+class Depot(db.Model):
+    __tablename__ = "depot"
+
+    id_depot = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(255), nullable=False)
+    adresse = db.Column(db.String(255), nullable=False)
+
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+
+    tournees = db.relationship("Tournee", backref="depot", cascade="all, delete")
+
+    def to_dict(self):
+        return {
+            "id_depot": self.id_depot,
+            "nom": self.nom,
+            "adresse": self.adresse,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+        }
+
+class Tournee(db.Model):
+    __tablename__ = "tournee"
+
+    id_tournee = db.Column(db.Integer, primary_key=True)
+
+    depot_id = db.Column(
+        db.Integer,
+        db.ForeignKey("depot.id_depot"),
+        nullable=False
+    )
+
+    camion_id = db.Column(
+        db.Integer,
+        db.ForeignKey("camion.id_camion"),
+        nullable=False
+    )
+
+    ordre_clients = db.Column(db.JSON, nullable=False)
+    distance_totale = db.Column(db.Float)
+    temps_estime = db.Column(db.Float)
+
+    camion = db.relationship("Camion")
+
+    def to_dict(self):
+        return {
+            "id_tournee": self.id_tournee,
+            "depot_id": self.depot_id,
+            "camion_id": self.camion_id,
+            "ordre_clients": self.ordre_clients,
+            "distance_totale": self.distance_totale,
+            "temps_estime": self.temps_estime,
+        }

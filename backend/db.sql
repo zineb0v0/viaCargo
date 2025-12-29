@@ -8,7 +8,9 @@ CREATE TABLE client (
     id_client  INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nom        VARCHAR(100) NOT NULL,
     prenom     VARCHAR(100) NOT NULL,
-    adresse    VARCHAR(255) NOT NULL
+    adresse    VARCHAR(255) NOT NULL,
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION
 );
 
 CREATE TABLE admin (
@@ -57,3 +59,23 @@ CREATE TABLE assignments (
         REFERENCES colis(id_colis)
         ON DELETE CASCADE
 );
+CREATE TABLE depot (
+    id_depot INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    adresse VARCHAR(255) NOT NULL,
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION
+);
+CREATE TABLE tournee (
+    id_tournee INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    depot_id INTEGER NOT NULL,
+    camion_id INTEGER NOT NULL,
+    ordre_clients JSONB NOT NULL,
+    distance_totale DOUBLE PRECISION,
+    temps_estime DOUBLE PRECISION,
+    CONSTRAINT fk_depot
+        FOREIGN KEY (depot_id) REFERENCES depot(id_depot),
+    CONSTRAINT fk_camion
+        FOREIGN KEY (camion_id) REFERENCES camion(id_camion)
+);
+

@@ -8,6 +8,7 @@ import os
 from routes.routes_bnb import solution_bp
 from routes.colis_route import colis_bp
 from routes.camions_route import camions_bp
+from routes.geo_route import geo_bp
 
 app = Flask(__name__, static_folder='../frontend/build')
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
@@ -27,6 +28,7 @@ with app.app_context():
 app.register_blueprint(colis_bp, url_prefix='/api/colis')
 app.register_blueprint(camions_bp, url_prefix='/api/camions')
 app.register_blueprint(solution_bp, url_prefix='/api')
+app.register_blueprint(geo_bp, url_prefix='/api/geo')
 
 # Route de test API
 @app.route('/api')
