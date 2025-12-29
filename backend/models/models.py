@@ -64,3 +64,36 @@ class Assignment(db.Model):
             "colis": self.colis.to_dict(),
             "time": self.time.isoformat(),
         }
+class Depot(db.Model):
+    __tablename__ = "depot"
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(100), nullable=False)
+    adresse = db.Column(db.String(255), nullable=False)
+    latitude = db.Column(db.Float, nullable=True)
+    longitude = db.Column(db.Float, nullable=True)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nom": self.nom,
+            "adresse": self.adresse,
+            "latitude": self.latitude,
+            "longitude": self.longitude
+        }
+
+    
+class DistanceMatrix(db.Model):
+    __tablename__ = "distance_matrix"
+    id = db.Column(db.Integer, primary_key=True)
+    id_camion = db.Column(db.Integer, db.ForeignKey("camion.id_camion"), nullable=False)
+    id_from = db.Column(db.Integer, db.ForeignKey("colis.id_colis"), nullable=False)
+    id_to = db.Column(db.Integer, db.ForeignKey("colis.id_colis"), nullable=False)
+    distance = db.Column(db.Float, nullable=False)
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "id_camion": self.id_camion,
+            "id_from": self.id_from,
+            "id_to": self.id_to,
+            "distance": self.distance
+        }
