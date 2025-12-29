@@ -67,12 +67,38 @@ def executer_bnb():
     branch_and_bound(colis, camions_dict, 0, repartition_init)
 
     date_exec = datetime.now()
+
+    # 🔹 créer UN seul run (si possible) et insérer les assignments
+    run_id = None
+    try:
+        cur.execute(
+            "INSERT INTO optimisation_runs (executed_at) VALUES (%s) RETURNING id",
+            (date_exec,)
+        )
+        row = cur.fetchone()
+        if row:
+            run_id = row[0]
+    except Exception as e:
+        # Si la table optimisation_runs n'existe pas, on continue sans run_id
+        print("optimisation_runs not available, continuing without run_id:", e)
+
+    # 🔹 ensuite insérer les assignments (avec ou sans run_id selon disponibilité)
     for camion_id, colis_list in meilleure_solution["repartition"].items():
         for id_colis in colis_list:
-            cur.execute("""
-                INSERT INTO assignments(id_camion, id_colis, time)
-                VALUES (%s, %s, %s)
-            """, (camion_id, id_colis, date_exec))
+            try:
+                if run_id is not None:
+                    cur.execute("""
+                        INSERT INTO assignments(id_camion, id_colis, time, run_id)
+                        VALUES (%s, %s, %s, %s)
+                    """, (camion_id, id_colis, date_exec, run_id))
+                else:
+                    cur.execute("""
+                        INSERT INTO assignments(id_camion, id_colis, time)
+                        VALUES (%s, %s, %s)
+                    """, (camion_id, id_colis, date_exec))
+            except Exception as e:
+                # Log and continue (avoid total failure for one bad insert)
+                print(f"Failed to insert assignment {camion_id}-{id_colis}:", e)
 
     conn.commit()
     conn.close()

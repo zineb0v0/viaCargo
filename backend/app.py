@@ -8,6 +8,7 @@ import os
 from routes.routes_bnb import solution_bp
 from routes.colis_route import colis_bp
 from routes.camions_route import camions_bp
+from routes.assignments_route import assignments_bp
 
 app = Flask(__name__, static_folder='../frontend/build')
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
@@ -26,6 +27,7 @@ with app.app_context():
 # Enregistrement des blueprints AVANT les routes catch-all
 app.register_blueprint(colis_bp, url_prefix='/api/colis')
 app.register_blueprint(camions_bp, url_prefix='/api/camions')
+app.register_blueprint(assignments_bp, url_prefix='/api/assignments')
 app.register_blueprint(solution_bp, url_prefix='/api')
 
 # Route de test API

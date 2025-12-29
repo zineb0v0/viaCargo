@@ -97,3 +97,78 @@
     color: #777;
     margin-bottom: 30px;
 }
+
+/* --- Historique des affectations --- */
+.history-section {
+    margin-top: 30px;
+}
+.history-section h3 {
+    margin: 0 0 12px 0;
+    color: #333;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+.history-table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 700px;
+}
+.history-table thead {
+    background-color: #9e84b8;
+    color: white;
+}
+.history-table th {
+    padding: 12px 20px;
+    font-weight: 600;
+    font-size: 0.95em;
+    white-space: nowrap;
+}
+.history-table td {
+    padding: 12px 20px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9em;
+    color: #555;
+}
+.history-table tbody tr:hover {
+    background: #faf5ff;
+}
+.history-table td small {
+    color: #777;
+    font-size: 0.85em;
+}
+
+.run-row {
+    cursor: default;
+    background: linear-gradient(90deg, rgba(158,132,184,0.03), transparent);
+}
+
+.run-details-row td {
+    padding: 0;
+    background: #fff;
+}
+
+.run-details { 
+    padding: 12px 20px;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #6b3fa0;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}

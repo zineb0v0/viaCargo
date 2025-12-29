@@ -63,4 +63,5 @@ class Assignment(db.Model):
             "camion": self.camion.to_dict(),
             "colis": self.colis.to_dict(),
             "time": self.time.isoformat(),
+            "run_id": getattr(self, 'run_id', None)
         }

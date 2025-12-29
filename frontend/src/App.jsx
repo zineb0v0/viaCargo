@@ -7,6 +7,7 @@ import DashboardPage from './pages/DashboardPage';
 import StockPage from './pages/StockPage'; 
 import TruckPage from './pages/TruckPage'; 
 import TruckLoadingPage from './pages/TruckLoadingPage'; 
+import RouteOptimizerMap from './components/map';
 import './App.css';
 
 const PAGES = {
