@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import db
-from models.models import Tournee, Client, Camion
-from routes.auth_route import login_required
+from models.models import Tournee, Client, Camion , Depot
+from routes.auth_route import login_required 
 from services.simulated_annealing import SimulatedAnnealing, calculate_distance_gps
 
 tournee_bp = Blueprint("tournee", __name__)
