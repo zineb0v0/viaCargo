@@ -40,12 +40,15 @@ class Camion(db.Model):
 class Colis(db.Model):
     __tablename__ = "colis"
     nom_client = db.Column(db.String(100), nullable=False)
+    id_client = db.Column(db.Integer, db.ForeignKey("client.id_client"), nullable=False)
     id_colis = db.Column(db.Integer, primary_key=True)
     destination = db.Column(db.String(255), nullable=False)
     poids = db.Column(db.Float, nullable=False)
     statut = db.Column(db.String(20), nullable=False, default="en_stock")
     date_livraison = db.Column(db.DateTime, nullable=False)
     assignments = db.relationship("Assignment", backref="colis", cascade="all, delete")
+    latitude = db.Column(db.Float, nullable=True)
+    longitude = db.Column(db.Float, nullable=True)
 
     def to_dict(self):
         return {
@@ -55,6 +58,9 @@ class Colis(db.Model):
             "statut": self.statut,
             "date_livraison": self.date_livraison.isoformat() if self.date_livraison else None,
             "nom_client": self.nom_client,
+            "id_client": self.id_client,
+            "latitude": self.latitude,
+            "longitude": self.longitude
         }
 
 class Assignment(db.Model):
