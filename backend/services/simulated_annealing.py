@@ -41,10 +41,24 @@ class SimulatedAnnealing:
         new_route[i], new_route[j] = new_route[j], new_route[i]
         return new_route
     
+    def nearest_neighbor_initial(self, cities):
+    
+        if not cities:
+            return []
+        start = random.choice(cities)
+        route = [start]
+        unvisited = set(cities) - {start}
+        while unvisited:
+            current = route[-1]
+            next_city = min(unvisited, key=lambda city: self.distance_matrix[current][city])
+            route.append(next_city)
+            unvisited.remove(next_city)
+        return route
+
+    
     def solve(self, cities):
         """Résout le TSP avec recuit simulé"""
-        current_route = cities.copy()
-        random.shuffle(current_route)
+        current_route = self.nearest_neighbor_initial(cities)
         current_distance = self.calculate_distance(current_route)
         
         best_route = current_route.copy()
