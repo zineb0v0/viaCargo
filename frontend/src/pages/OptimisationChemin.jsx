@@ -30,8 +30,8 @@ const OptimisationChemin = () => {
         try {
             // Charger les camions et les détails des colis en parallèle
             const [camionsRes, colisRes] = await Promise.all([
-                axios.get(API_CAMIONS, { withCredentials: true }),
-                axios.get(API_COLIS, { withCredentials: true })
+                axios.get(API_CAMIONS),
+                axios.get(API_COLIS)
             ]);
 
             setCamions(Array.isArray(camionsRes.data) ? camionsRes.data : []);
@@ -67,8 +67,7 @@ const OptimisationChemin = () => {
             // Appel à votre route backend qui filtre par sac à dos
             const res = await axios.post(
                 `${API_TOURNEE}/optimize/${selectedCamion}`,
-                {},
-                { withCredentials: true }
+                {}
             );
 
             if (res.data && res.data.id_tournee) {

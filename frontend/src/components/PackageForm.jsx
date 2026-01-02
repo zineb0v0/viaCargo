@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './PackageForm.css'; 
 
 const initialFormData = {
-    nom_client: '', // ✅ Changé de 'client' à 'nom_client'
+    nom_client: '',
     address: '',
     weight: 0,
     deadline: '',
@@ -14,14 +15,12 @@ const PackageForm = ({ isOpen, onClose, onSubmit, packageToEdit }) => {
     
     useEffect(() => {
         if (packageToEdit) {
-            console.log("Package à éditer:", packageToEdit);
-            
             setFormData({
-                nom_client: packageToEdit.nom_client || '', // ✅ Cohérent maintenant
-                address: packageToEdit.address || '',
-                weight: packageToEdit.weight || 0,
-                deadline: packageToEdit.deadline ? packageToEdit.deadline.split('T')[0] : '',
-                status: packageToEdit.status || 'en_stock'
+                nom_client: packageToEdit.nom_client || '',
+                address: packageToEdit.destination || '',
+                weight: packageToEdit.poids || 0,
+                deadline: packageToEdit.date_livraison ? packageToEdit.date_livraison.split('T')[0] : '',
+                status: packageToEdit.statut || 'en_stock'
             });
         } else {
             setFormData(initialFormData);
@@ -58,6 +57,7 @@ const PackageForm = ({ isOpen, onClose, onSubmit, packageToEdit }) => {
                             name="nom_client" 
                             value={formData.nom_client} 
                             onChange={handleChange} 
+                            placeholder="Nom complet du client"
                             required 
                         />
                     </div>
