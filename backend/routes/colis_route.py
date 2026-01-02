@@ -43,9 +43,30 @@ def add_colis():
         except ValueError:
             return jsonify({"error": "Format date_livraison invalide. Format attendu: YYYY-MM-DD"}), 400
 
+        # Créer ou trouver le client
+        from models.models import Client
+        nom_parts = data["nom_client"].strip().split()
+        if len(nom_parts) >= 2:
+            nom = nom_parts[0]
+            prenom = " ".join(nom_parts[1:])
+        else:
+            nom = data["nom_client"].strip()
+            prenom = ""
+            
+        # Chercher un client existant ou en créer un nouveau
+        client = Client.query.filter_by(nom=nom, prenom=prenom).first()
+        if not client:
+            client = Client(
+                nom=nom,
+                prenom=prenom,
+                adresse=data["destination"]  # Utiliser la destination comme adresse par défaut
+            )
+            db.session.add(client)
+            db.session.flush()  # Pour obtenir l'ID
+
         # Création du colis
         colis = Colis(
-            nom_client=data["nom_client"],
+            id_client=client.id_client,
             destination=data["destination"],
             poids=data["poids"],
             statut=data.get("statut", "en_stock"),
@@ -73,9 +94,9 @@ def update_colis(id_colis):
 
         data = request.get_json()
 
-        # ✅ AJOUT: Mise à jour du nom_client
-        if "nom_client" in data:
-            colis.nom_client = data["nom_client"]
+        # Mise à jour des champs
+        if "id_client" in data:
+            colis.id_client = data["id_client"]
             
         if "destination" in data:
             colis.destination = data["destination"]

@@ -30,18 +30,26 @@ const DashboardPage = () => {
         setError(null);
         try {
             const response = await axios.get(API_URL);
-            const data = response.data || [];
+            const colisData = response.data || [];
+            const totalPackages = colisData.length;
+            const totalWeight = colisData.reduce((sum, colis) => sum + (colis.poids || 0), 0);
+            
+            const packages = colisData.map(colis => ({
+                id_colis: colis.id_colis,
+                client: colis.nom_client || 'Client inconnu',
+                destination: colis.destination,
+                date_livraison: colis.date_livraison,
+                poids: colis.poids
+            }));
 
-            // Backend returns a list of colis objects. Compute stats and store packages.
-            const packages = data;
             setPackageData(packages);
             setStats({
-                totalPackages: packages.length,
-                totalWeight: packages.reduce((sum, p) => sum + (p.poids || 0), 0)
+                totalPackages: totalPackages,
+                totalWeight: totalWeight.toFixed(2)
             });
         } catch (err) {
             console.error("Erreur Dashboard:", err);
-            setError("Impossible de charger le tableau de bord. Backend éteint ou erreur CORS.");
+            setError(`Impossible de charger les données: ${err.message}`);
         } finally {
             setIsLoading(false);
         }
@@ -87,16 +95,21 @@ const DashboardPage = () => {
     };
 
     if (isLoading) {
-        return <div className="loading-state" style={{padding: '30px', fontSize: '1.2em'}}>Chargement des données du tableau de bord...</div>;
+        return <div className="loading-state" style={{padding: '30px', fontSize: '1.2em'}}>Chargement...</div>;
     }
 
     if (error) {
-        return <div className="error-state" style={{padding: '30px', color: 'red'}}>Erreur : {error}</div>;
+        return (
+            <div className="error-state" style={{padding: '30px', color: 'red'}}>
+                <h3>Erreur</h3>
+                <p>{error}</p>
+                <button onClick={fetchDashboardData}>Réessayer</button>
+            </div>
+        );
     }
 
     return (
         <div className="dashboard-page">
-            
             <div className="page-header">
                 <h2>Tableau de bord</h2>
             </div>
@@ -155,7 +168,7 @@ const DashboardPage = () => {
                                                                         <td>{new Date(a.time).toLocaleString()}</td>
                                                                         <td>{a.camion?.id_camion ?? a.id_camion}</td>
                                                                         <td>{a.colis?.id_colis ?? a.id_colis}</td>
-                                                                        <td>{a.colis?.nom_client ?? ''}</td>
+                                                                        <td>{a.colis?.id_client ? `Client ${a.colis.id_client}` : ''}</td>
                                                                         <td>{a.colis?.poids ?? ''} kg</td>
                                                                     </tr>
                                                                 ))}
@@ -182,7 +195,6 @@ const DashboardPage = () => {
             </div>
             
             <div className="table-section">
-                
                 <div className="data-table-container">
                     <table className="data-table">
                         <thead>
@@ -199,7 +211,7 @@ const DashboardPage = () => {
                             {packageData.map((pkg) => (
                                 <tr key={pkg.id_colis}>
                                     <td className="col-id">{pkg.id_colis}</td>
-                                    <td>{pkg.nom_client}</td>
+                                    <td>{pkg.client}</td>
                                     <td className="col-address">
                                         <FaMapMarkerAlt size={12} color="#9e84b8" style={{ marginRight: '5px' }} />
                                         {pkg.destination}
@@ -212,8 +224,8 @@ const DashboardPage = () => {
                             ))}
                             {packageData.length === 0 && (
                                 <tr>
-                                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px', fontStyle: 'italic' }}>
-                                        Aucun colis trouvé ou en attente.
+                                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }}>
+                                        Aucun colis trouvé.
                                     </td>
                                 </tr>
                             )}
