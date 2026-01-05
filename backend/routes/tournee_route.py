@@ -43,7 +43,7 @@ def optimize_tournee(camion_id):
                     distance_matrix[i][j] = dist
         
         # Optimiser avec recuit simulé
-        sa = SimulatedAnnealing(distance_matrix)
+        sa = SimulatedAnnealing(distance_matrix, use_nearest_neighbor=True)
         indices = list(range(n))
         best_route, best_distance = sa.solve(indices)
         
